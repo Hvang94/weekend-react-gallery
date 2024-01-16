@@ -22,7 +22,7 @@ function App() {
 
   const likeImage = (imageId) => {
     axios
-      .put(`/api/gallary/${imageId}`)
+      .put(`/api/gallary/${imageId}`), {likes: likes += 1}
       .then((response) => {
         fetchImage();
       })
@@ -39,9 +39,16 @@ function App() {
     <div>
       <Header />
 
-      <p>The gallery goes here!</p>
-      <img src="images/goat_small.jpg" />
-      <button>Like</button>
+      {/* <p>The gallery goes here!</p>
+      <img src="images/goat_small.jpg" /> */}
+      <ul>
+        {galleryItems.map((item) => (
+          <li key={item.id}>
+          {item.url} {item.title} {item.description} {item.likes}
+          <button onClick={likeImage}>Like</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
