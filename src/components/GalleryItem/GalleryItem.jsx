@@ -20,6 +20,7 @@ export const GalleryItem = ({ item, fetchImage }) => {
 
   return (
     <div data-testid="galleryItem">
+      <h3>{item.title}</h3>
       {showImage ? (
         <img
           src={item.url}
