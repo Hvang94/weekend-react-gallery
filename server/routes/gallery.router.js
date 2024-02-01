@@ -1,33 +1,33 @@
 const express = require('express');
-const { s } = require('vitest/dist/reporters-O4LBziQ_');
 const router = express.Router();
+const pool = require("../modules/pool");
 
 // PUT /gallery/like/:id
 router.put('/like/:id', (req, res) => {
-  // code here
- 
-  // ! Need queryParams and queryText
+  // declare queryText which will UPDATE likes by id by +1
+  const queryParams = req.params.id
+  const queryText = `UPDATE "gallery" SET "likes" = "likes" + 1 WHERE id=$1`
 
-    // send UPDATE to DB
-    pool
-      .query(queryText, queryParams)
-      // then send ok status
-      .then((result) => {
-        res.sendStatus(200);
-      })
-      .catch((error) => {
-        console.log("error:", error);
-      });
+  pool
+    .query(queryText, [queryParams])
+  .then((result) => {
+    console.log("Update Successful");
+    res.sendStatus(201)
+  })
+  .catch((err) => {
+    console.log("Error Updating:", err);
+    res.sendStatus(500)
+  })
+
 });
 
 // GET /gallery
 router.get('/', (req, res) => {
   // code here
-  const sqlText = `SELECT * FROM "galary"`;
+  const sqlText = `SELECT * FROM "gallery"`;
 
   pool.query(sqlText)
   .then((result) => {
-    console.log("server GET", result);
 res.send(result.rows)
   })
   .catch((error) => {
